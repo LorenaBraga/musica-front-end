@@ -1,8 +1,64 @@
-<mat-form-field>
-  <mat-label>Input</mat-label>
-  <input matInput>
-</mat-form-field>
-<mat-form-field>
-  <mat-label>Textarea</mat-label>
-  <textarea matInput></textarea>
-</mat-form-field>
+<form [formGroup]="formGroup"
+  (ngSubmit)="onSubmit()"
+  class="form">
+  <div class="formTipo">
+    <mat-form-field>
+      <mat-label>Nome Banda:</mat-label>
+      <input matInput formControlName="nomeBanda">
+      <mat-error *ngIf="handleError('nomeBanda', 'required')">
+        O nome banda é obrigatório
+      </mat-error>
+      <mat-error *ngIf="handleError('nomeBanda', 'minlength')">
+        Mínimo 3 caracteres
+      </mat-error>
+      <mat-error *ngIf="handleError('nomeBanda', 'maxlength')">
+        Máximo 50 caracteres
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Nome Musica:</mat-label>
+      <input matInput formControlName="nomeMusica">
+      <mat-error *ngIf="handleError('nomeMusica', 'required')">
+        O nome musica é obrigatório
+      </mat-error>
+      <mat-error *ngIf="handleError('nomeMusica', 'minlength')">
+        Mínimo 3 caracteres
+      </mat-error>
+      <mat-error *ngIf="handleError('nomeMusica', 'maxlength')">
+        Máximo 50 caracteres
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Nome Album:</mat-label>
+      <input matInput formControlName="nomeAlbum">
+      <mat-error *ngIf="handleError('nomeAlbum', 'required')">
+        O nome album é obrigatório
+      </mat-error>
+      <mat-error *ngIf="handleError('nomeAlbum', 'minlength')">
+        Mínimo 3 caracteres
+      </mat-error>
+      <mat-error *ngIf="handleError('nomeAlbum', 'maxlength')">
+        Máximo 50 caracteres
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Duraçao:</mat-label>
+      <input matInput formControlName="duracao" type="number">
+      <mat-error *ngIf="handleError('duracao', 'required')">
+        Duraçao é obrigatório
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Data de Lançamento</mat-label>
+      <input matInput [matDatepicker]="picker" formControlName="dataLancamento">
+      <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+      <mat-error *ngIf="handleError('dataLancamento', 'required')">
+        Status é obrigatório
+      </mat-error>
+    </mat-form-field>
+
+    <button mat-raised-button color="primary" type="submit">Salvar</button>
+  </div>
+</form>
+

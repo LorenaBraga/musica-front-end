@@ -14,10 +14,8 @@ export class ListaComponent implements OnInit{
 
   displayedColumns: string[] = ['id','nomeBanda', 'nomeMusica', 'nomeAlbum', 'duracao', 'dataLancamento'];
 
-  musicaDto: MusicaDto[] = [
-    {id: 1, nomeBanda: 'Paramore', nomeMusica: '', nomeAlbum: '', duracao: 2, dataLancamento: ''},
-    {id: 2, nomeBanda: 'PinkFloyd', nomeMusica: '', nomeAlbum: '', duracao: 2, dataLancamento: ''}
-  ] ;
+  musicaDataSource: MatTableDataSource<MusicaDto> = new MatTableDataSource<MusicaDto>([]);
+
 
   constructor(
     private musicaControllerService: MusicaControllerService
@@ -25,13 +23,12 @@ export class ListaComponent implements OnInit{
   }
   ngOnInit(): void {
     console.log("Teste", this);
-    this.musicaControllerService.listAll().subscribe(
-      (response: any) => {
-        console.log("response:", response)
-      }
-    )
+    this.buscarDados();
   }
-  // ngAfterViewInit() {
-  //   this.dataSource.paginator = this.paginator;
-  // }
+
+  private buscarDados() {
+    this.musicaControllerService.listAll().subscribe(data => {
+      this.musicaDataSource.data = data;
+    })
+  }
 }

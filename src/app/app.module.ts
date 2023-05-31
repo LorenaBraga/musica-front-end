@@ -12,9 +12,13 @@ import {ApiModule} from "./api/api.module";
 import {MatTableModule} from "@angular/material/table";
 import {MatPaginatorModule} from "@angular/material/paginator";
 import { IncluirComponent } from './pages/incluir/incluir.component';
-import {MatFormFieldModule} from "@angular/material/form-field";
+import {MAT_FORM_FIELD_DEFAULT_OPTIONS, MatFormFieldModule} from "@angular/material/form-field";
 import {MatSelectModule} from "@angular/material/select";
 import {MatInputModule} from "@angular/material/input";
+import {MatDatepickerModule} from "@angular/material/datepicker";
+import {ReactiveFormsModule} from "@angular/forms";
+import {MatNativeDateModule} from "@angular/material/core";
+import {MatSnackBar} from "@angular/material/snack-bar";
 
 
 @NgModule({
@@ -35,9 +39,15 @@ import {MatInputModule} from "@angular/material/input";
     MatPaginatorModule,
     MatFormFieldModule,
     MatSelectModule,
-    MatInputModule
+    MatInputModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    ReactiveFormsModule
   ],
-  providers: [],
+  providers: [{provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: {appearance: 'outline'}},
+    MatDatepickerModule,
+    MatSnackBar
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
