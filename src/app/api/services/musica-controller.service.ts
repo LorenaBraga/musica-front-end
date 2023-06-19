@@ -194,6 +194,120 @@ export class MusicaControllerService extends BaseService {
   }
 
   /**
+   * Path part for operation buscarPorId
+   */
+  static readonly BuscarPorIdPath = '/api/v1/getbyID/{id}';
+
+  /**
+   * Método utilizado para buscar uma música pelo id informado
+   *
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `buscarPorId()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  buscarPorId$Response(params: {
+    id: number;
+  },
+  context?: HttpContext
+
+): Observable<StrictHttpResponse<any>> {
+
+    const rb = new RequestBuilder(this.rootUrl, MusicaControllerService.BuscarPorIdPath, 'get');
+    if (params) {
+      rb.path('id', params.id, {});
+    }
+
+    return this.http.request(rb.build({
+      responseType: 'json',
+      accept: 'application/json',
+      context: context
+    })).pipe(
+      filter((r: any) => r instanceof HttpResponse),
+      map((r: HttpResponse<any>) => {
+        return r as StrictHttpResponse<any>;
+      })
+    );
+  }
+
+  /**
+   * Método utilizado para buscar uma música pelo id informado
+   *
+   * This method provides access only to the response body.
+   * To access the full response (for headers, for example), `buscarPorId$Response()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  buscarPorId(params: {
+    id: number;
+  },
+  context?: HttpContext
+
+): Observable<any> {
+
+    return this.buscarPorId$Response(params,context).pipe(
+      map((r: StrictHttpResponse<any>) => r.body as any)
+    );
+  }
+
+  /**
+   * Path part for operation favoritarMusica
+   */
+  static readonly FavoritarMusicaPath = '/api/v1/favoritar/{id}';
+
+  /**
+   * Método utilizado para favoritar uma música pelo id informado
+   *
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `favoritarMusica()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  favoritarMusica$Response(params: {
+    id: number;
+  },
+  context?: HttpContext
+
+): Observable<StrictHttpResponse<any>> {
+
+    const rb = new RequestBuilder(this.rootUrl, MusicaControllerService.FavoritarMusicaPath, 'get');
+    if (params) {
+      rb.path('id', params.id, {});
+    }
+
+    return this.http.request(rb.build({
+      responseType: 'json',
+      accept: 'application/json',
+      context: context
+    })).pipe(
+      filter((r: any) => r instanceof HttpResponse),
+      map((r: HttpResponse<any>) => {
+        return r as StrictHttpResponse<any>;
+      })
+    );
+  }
+
+  /**
+   * Método utilizado para favoritar uma música pelo id informado
+   *
+   * This method provides access only to the response body.
+   * To access the full response (for headers, for example), `favoritarMusica$Response()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  favoritarMusica(params: {
+    id: number;
+  },
+  context?: HttpContext
+
+): Observable<any> {
+
+    return this.favoritarMusica$Response(params,context).pipe(
+      map((r: StrictHttpResponse<any>) => r.body as any)
+    );
+  }
+
+  /**
    * Path part for operation excluir
    */
   static readonly ExcluirPath = '/api/v1/excluir/{id}';

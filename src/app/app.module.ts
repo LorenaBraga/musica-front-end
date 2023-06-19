@@ -18,15 +18,17 @@ import {MatInputModule} from "@angular/material/input";
 import {MatDatepickerModule} from "@angular/material/datepicker";
 import {ReactiveFormsModule} from "@angular/forms";
 import {MatNativeDateModule} from "@angular/material/core";
-import {MatSnackBar} from "@angular/material/snack-bar";
+import {MatIconModule} from "@angular/material/icon";
+import {MusicaModule} from "./pages/musica.module";
+import {MatSidenavModule} from "@angular/material/sidenav";
+import {MatToolbarModule} from "@angular/material/toolbar";
+import {MatButtonModule} from "@angular/material/button";
 
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
-    ListaComponent,
-    IncluirComponent
   ],
   imports: [
     BrowserModule,
@@ -42,11 +44,14 @@ import {MatSnackBar} from "@angular/material/snack-bar";
     MatInputModule,
     MatDatepickerModule,
     MatNativeDateModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatButtonModule,
+    MatIconModule,
+    MusicaModule,
+    MatSidenavModule,
+    MatToolbarModule
   ],
   providers: [{provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: {appearance: 'outline'}},
-    MatDatepickerModule,
-    MatSnackBar
   ],
   bootstrap: [AppComponent]
 })

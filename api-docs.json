@@ -97,6 +97,62 @@
         }
       }
     },
+    "/api/v1/getbyID/{id}": {
+      "get": {
+        "tags": [
+          "musica-controller"
+        ],
+        "description": "Método utilizado para buscar uma música pelo id informado",
+        "operationId": "buscarPorId",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Buscar música",
+            "content": {
+              "application/json": {}
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/favoritar/{id}": {
+      "get": {
+        "tags": [
+          "musica-controller"
+        ],
+        "description": "Método utilizado para favoritar uma música pelo id informado",
+        "operationId": "favoritarMusica",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Favoritar música",
+            "content": {
+              "application/json": {}
+            }
+          }
+        }
+      }
+    },
     "/api/v1/excluir/{id}": {
       "delete": {
         "tags": [
@@ -151,6 +207,9 @@
           "duracao": {
             "type": "integer",
             "format": "int64"
+          },
+          "favorito": {
+            "type": "boolean"
           }
         }
       }
