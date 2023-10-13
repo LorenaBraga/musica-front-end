@@ -25,7 +25,7 @@ export class MusicaControllerService extends BaseService {
   /**
    * Path part for operation alterar
    */
-  static readonly AlterarPath = '/api/v1/alterar/{id}';
+  static readonly AlterarPath = '/api/v1/musica/alterar/{id}';
 
   /**
    * Método utilizado para alterar os dados de uma música
@@ -83,26 +83,26 @@ export class MusicaControllerService extends BaseService {
   }
 
   /**
-   * Path part for operation incluir
+   * Path part for operation incluir1
    */
-  static readonly IncluirPath = '/api/v1/incluir';
+  static readonly Incluir1Path = '/api/v1/musica/incluir';
 
   /**
    * Método utilizado para realizar a inclusão de uma música
    *
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `incluir()` instead.
+   * To access only the response body, use `incluir1()` instead.
    *
    * This method sends `application/json` and handles request body of type `application/json`.
    */
-  incluir$Response(params: {
+  incluir1$Response(params: {
     body: MusicaDto
   },
   context?: HttpContext
 
 ): Observable<StrictHttpResponse<any>> {
 
-    const rb = new RequestBuilder(this.rootUrl, MusicaControllerService.IncluirPath, 'post');
+    const rb = new RequestBuilder(this.rootUrl, MusicaControllerService.Incluir1Path, 'post');
     if (params) {
       rb.body(params.body, 'application/json');
     }
@@ -123,18 +123,18 @@ export class MusicaControllerService extends BaseService {
    * Método utilizado para realizar a inclusão de uma música
    *
    * This method provides access only to the response body.
-   * To access the full response (for headers, for example), `incluir$Response()` instead.
+   * To access the full response (for headers, for example), `incluir1$Response()` instead.
    *
    * This method sends `application/json` and handles request body of type `application/json`.
    */
-  incluir(params: {
+  incluir1(params: {
     body: MusicaDto
   },
   context?: HttpContext
 
 ): Observable<any> {
 
-    return this.incluir$Response(params,context).pipe(
+    return this.incluir1$Response(params,context).pipe(
       map((r: StrictHttpResponse<any>) => r.body as any)
     );
   }
@@ -142,7 +142,7 @@ export class MusicaControllerService extends BaseService {
   /**
    * Path part for operation listAll
    */
-  static readonly ListAllPath = '/api/v1/listar';
+  static readonly ListAllPath = '/api/v1/musica/listar';
 
   /**
    * Listagem Geral
@@ -194,9 +194,63 @@ export class MusicaControllerService extends BaseService {
   }
 
   /**
+   * Path part for operation listarfavoritas
+   */
+  static readonly ListarfavoritasPath = '/api/v1/musica/listar favoritas';
+
+  /**
+   * Listagem Favoritas
+   *
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `listarfavoritas()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  listarfavoritas$Response(params?: {
+  },
+  context?: HttpContext
+
+): Observable<StrictHttpResponse<any>> {
+
+    const rb = new RequestBuilder(this.rootUrl, MusicaControllerService.ListarfavoritasPath, 'get');
+    if (params) {
+    }
+
+    return this.http.request(rb.build({
+      responseType: 'json',
+      accept: 'application/json',
+      context: context
+    })).pipe(
+      filter((r: any) => r instanceof HttpResponse),
+      map((r: HttpResponse<any>) => {
+        return r as StrictHttpResponse<any>;
+      })
+    );
+  }
+
+  /**
+   * Listagem Favoritas
+   *
+   * This method provides access only to the response body.
+   * To access the full response (for headers, for example), `listarfavoritas$Response()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  listarfavoritas(params?: {
+  },
+  context?: HttpContext
+
+): Observable<any> {
+
+    return this.listarfavoritas$Response(params,context).pipe(
+      map((r: StrictHttpResponse<any>) => r.body as any)
+    );
+  }
+
+  /**
    * Path part for operation buscarPorId
    */
-  static readonly BuscarPorIdPath = '/api/v1/getbyID/{id}';
+  static readonly BuscarPorIdPath = '/api/v1/musica/getbyID/{id}';
 
   /**
    * Método utilizado para buscar uma música pelo id informado
@@ -253,7 +307,7 @@ export class MusicaControllerService extends BaseService {
   /**
    * Path part for operation favoritarMusica
    */
-  static readonly FavoritarMusicaPath = '/api/v1/favoritar/{id}';
+  static readonly FavoritarMusicaPath = '/api/v1/musica/favoritar/{id}';
 
   /**
    * Método utilizado para favoritar uma música pelo id informado
@@ -310,7 +364,7 @@ export class MusicaControllerService extends BaseService {
   /**
    * Path part for operation excluir
    */
-  static readonly ExcluirPath = '/api/v1/excluir/{id}';
+  static readonly ExcluirPath = '/api/v1/musica/excluir/{id}';
 
   /**
    * Método utilizado para remover uma música pelo id informado

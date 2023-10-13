@@ -1,0 +1,19 @@
+table {
+  width: 100%;
+}
+
+.mdc-data-table__header-cell {
+  text-align: center;
+}
+
+.mdc-data-table__cell {
+  text-align: center;
+}
+
+.mat-column-acoes {
+  max-width: 20px;
+}
+
+.mat-column-id {
+  max-width: 20px;
+}

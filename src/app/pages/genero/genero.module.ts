@@ -1,5 +1,3 @@
-import {ListaComponent} from "./musica/lista/lista.component";
-import {IncluirComponent} from "./musica/incluir/incluir.component";
 import {CommonModule} from "@angular/common";
 import {RouterModule} from "@angular/router";
 import {MatTableModule} from "@angular/material/table";
@@ -10,23 +8,20 @@ import {MatSnackBarModule} from "@angular/material/snack-bar";
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatInputModule} from "@angular/material/input";
 import {ReactiveFormsModule} from "@angular/forms";
-import {musicaRoutes} from "./musica-routing.module";
 import {NgModule} from "@angular/core";
 import {MatDatepickerModule} from "@angular/material/datepicker";
-import {MatSelectModule} from "@angular/material/select";
-import { ListarFavoritasComponent } from './musica/listar-favoritas/listar-favoritas.component';
-import {MatExpansionModule} from "@angular/material/expansion";
-import {MatCardModule} from "@angular/material/card";
+import {IncluirGeneroComponent} from './incluir-genero/incluir-genero.component';
+import {ListaGeneroComponent} from './lista-genero/lista-genero.component';
+import {generoRoutes} from "./genero-routing.module"
 
 @NgModule({
   declarations: [
-    ListaComponent,
-    IncluirComponent,
-    ListarFavoritasComponent
+    ListaGeneroComponent,
+    IncluirGeneroComponent,
   ],
   imports: [
     CommonModule,
-    RouterModule.forChild(musicaRoutes),
+    RouterModule.forChild(generoRoutes),
     MatTableModule,
     MatButtonModule,
     MatIconModule,
@@ -35,10 +30,8 @@ import {MatCardModule} from "@angular/material/card";
     MatFormFieldModule,
     MatInputModule,
     ReactiveFormsModule,
-    MatDatepickerModule,
-    MatSelectModule,
-    MatExpansionModule,
-    MatCardModule
+    MatDatepickerModule
   ]
 })
-export class MusicaModule { }
+export class GeneroModule {
+}

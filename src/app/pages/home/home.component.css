@@ -1,5 +1,5 @@
 mat-toolbar {
-  background: #f557ec;
+  background: #E595DEFF;
   color: white;
 }
 
@@ -76,4 +76,9 @@ mat-divider {
 
 ::ng-deep.mat-mdc-table .mdc-data-table__header-row {
   background-color: #E595DEFF;
+}
+
+::ng-deep.mdc-button--raised {
+  background-color: #E595DEFF !important;
+  margin-top: 8px;
 }

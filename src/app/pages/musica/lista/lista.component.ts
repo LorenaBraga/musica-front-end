@@ -1,6 +1,6 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
-import {MusicaDto} from "../../api/models/musica-dto";
-import {MusicaControllerService} from "../../api/services/musica-controller.service";
+import {MusicaDto} from "../../../api/models/musica-dto";
+import {MusicaControllerService} from "../../../api/services/musica-controller.service";
 import {MatPaginator, MatPaginatorModule} from '@angular/material/paginator';
 import {MatTableDataSource, MatTableModule} from '@angular/material/table';
 import {MatSnackBar} from "@angular/material/snack-bar";
@@ -13,7 +13,7 @@ import {MatSnackBar} from "@angular/material/snack-bar";
 export class ListaComponent implements OnInit{
   //@ViewChild(MatPaginator) paginator: MatPaginator;
 
-  displayedColumns: string[] = ['id','nomeBanda', 'nomeMusica', 'nomeAlbum', 'duracao', 'dataLancamento', 'acoes'];
+  displayedColumns: string[] = ['id','nomeBanda', 'nomeMusica', 'nomeAlbum', 'duracao', 'dataLancamento', 'genero', 'acoes'];
 
   musicaDataSource: MatTableDataSource<MusicaDto> = new MatTableDataSource<MusicaDto>([]);
 
@@ -30,6 +30,7 @@ export class ListaComponent implements OnInit{
 
   private buscarDados() {
     this.musicaControllerService.listAll().subscribe(data => {
+      data.sort((a: any, b: any) => a.id - b.id);
       this.musicaDataSource.data = data;
     })
   }

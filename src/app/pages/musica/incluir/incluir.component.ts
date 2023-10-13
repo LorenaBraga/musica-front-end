@@ -1,11 +1,13 @@
 import {Component} from '@angular/core';
-import {MusicaControllerService} from "../../api/services/musica-controller.service";
+import {MusicaControllerService} from "../../../api/services/musica-controller.service";
 import {FormBuilder, FormGroup, Validators, FormControl} from "@angular/forms";
 import {DateAdapter} from "@angular/material/core";
-import {MusicaDto} from "../../api/models/musica-dto";
+import {MusicaDto} from "../../../api/models/musica-dto";
 import {MatDialog} from "@angular/material/dialog";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {ActivatedRoute, Router} from "@angular/router";
+import {GeneroControllerService} from "../../../api/services/genero-controller.service";
+import {GeneroDto} from "../../../api/models/genero-dto";
 
 @Component({
   selector: 'app-incluir',
@@ -18,12 +20,15 @@ export class IncluirComponent {
   formGroup!: FormGroup;
   id!: number;
 
+  listaGeneros: GeneroDto[] = [];
+
   constructor(private musicaService: MusicaControllerService,
-              private formBuilder: FormBuilder,
-              private _adapter: DateAdapter<any>,
-              private snackBar: MatSnackBar,
-              public router: Router,
-              public route: ActivatedRoute
+                    private formBuilder: FormBuilder,
+                    private _adapter: DateAdapter<any>,
+                    private snackBar: MatSnackBar,
+                    public router: Router,
+                    public route: ActivatedRoute,
+                    private generoService: GeneroControllerService
   ) {
     const paramId = this.route.snapshot.paramMap.get('idMusica');
     if (paramId) {
@@ -36,8 +41,16 @@ export class IncluirComponent {
         }
       )
     }
+    this.buscarGeneros();
     this.createForm();
     this._adapter.setLocale('pt-br');
+  }
+
+  buscarGeneros() {
+     this.generoService.listAll1().toPromise().then((retorno: any) => {
+      console.log(retorno);
+      this.listaGeneros = retorno;
+    });
   }
 
   createForm() {
@@ -46,7 +59,10 @@ export class IncluirComponent {
       nomeAlbum: [null, [Validators.required, Validators.minLength(3), Validators.maxLength(50)]],
       nomeMusica: [null, [Validators.required, Validators.minLength(3), Validators.maxLength(50)]],
       duracao: [null, [Validators.required]],
-      dataLancamento: [null, [Validators.required]]
+      dataLancamento: [null, [Validators.required]],
+      genero: this.formBuilder.group({
+        id: [null, Validators.required]
+      })
     })
   }
 
@@ -57,7 +73,7 @@ export class IncluirComponent {
   onSubmit() {
     if (this.formGroup.valid) {
       if (!this.id) {
-        this.musicaService.incluir({body: this.formGroup.value})
+        this.musicaService.incluir1({body: this.formGroup.value})
           .subscribe(retorno => {
             console.log("Retorno:", retorno);
             this.showMensagemSimples("Musica incluida com sucesso!")
@@ -88,4 +104,7 @@ export class IncluirComponent {
   }
 
 
+  selectGeneroChange(event: Event) {
+    console.log('envent', event)
+  }
 }

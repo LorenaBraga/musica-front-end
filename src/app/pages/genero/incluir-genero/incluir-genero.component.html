@@ -1,0 +1,18 @@
+<form [formGroup]="formGroup"
+      (ngSubmit)="onSubmit()"
+      class="form">
+  <div class="formTipo">
+    <mat-form-field>
+      <mat-label>Nome:</mat-label>
+      <input matInput formControlName="nome">
+      <mat-error *ngIf="handleError('nome', 'required')">
+        O nome é obrigatório
+      </mat-error>
+      <mat-error *ngIf="handleError('nome', 'maxlength')">
+        Máximo 50 caracteres
+      </mat-error>
+    </mat-form-field>
+    <button mat-raised-button color="primary" type="submit">Salvar</button>
+  </div>
+</form>
+

@@ -5,6 +5,8 @@ import { HttpClient } from '@angular/common/http';
 import { ApiConfiguration, ApiConfigurationParams } from './api-configuration';
 
 import { MusicaControllerService } from './services/musica-controller.service';
+import { GeneroControllerService } from './services/genero-controller.service';
+import { UsuarioControllerService } from './services/usuario-controller.service';
 
 /**
  * Module that provides all services and configuration.
@@ -15,6 +17,8 @@ import { MusicaControllerService } from './services/musica-controller.service';
   declarations: [],
   providers: [
     MusicaControllerService,
+    GeneroControllerService,
+    UsuarioControllerService,
     ApiConfiguration
   ],
 })

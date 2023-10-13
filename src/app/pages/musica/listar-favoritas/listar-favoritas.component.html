@@ -1,0 +1,25 @@
+<ng-container *ngIf="listaFavoritas.length == 0">
+  <h3 style="text-align-last: center; color: #E595DEFF">Sem músicas favoritadas!</h3>
+</ng-container>
+<mat-accordion *ngFor="let favorita of listaFavoritas" class="example-headers-align">
+  <mat-expansion-panel [hideToggle]="true" style="margin-bottom: 5px">
+    <mat-expansion-panel-header style="background-color: #E595DEFF; height: 40px">
+      <mat-panel-title style="font-size: 20px; color: white">
+        {{favorita.nome}}
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+    <ng-container *ngFor="let musica of favorita.musicasfavoritas" >
+      <mat-card class="card" >
+        <mat-card-header>
+          <mat-card-title-group>
+            <mat-icon>headset</mat-icon>
+            <mat-card-title style="font-size: 16px">{{musica.nomeMusica}}</mat-card-title>
+            <mat-card-subtitle style="font-size: 13px">{{musica.nomeBanda}}</mat-card-subtitle>
+          </mat-card-title-group>
+        </mat-card-header>
+      </mat-card>
+    </ng-container>
+
+  </mat-expansion-panel>
+
+</mat-accordion>
