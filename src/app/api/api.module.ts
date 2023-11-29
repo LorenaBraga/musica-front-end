@@ -6,6 +6,7 @@ import { ApiConfiguration, ApiConfigurationParams } from './api-configuration';
 
 import { MusicaControllerService } from './services/musica-controller.service';
 import { GeneroControllerService } from './services/genero-controller.service';
+import { AuthApiService } from './services/auth-api.service';
 import { UsuarioControllerService } from './services/usuario-controller.service';
 
 /**
@@ -18,6 +19,7 @@ import { UsuarioControllerService } from './services/usuario-controller.service'
   providers: [
     MusicaControllerService,
     GeneroControllerService,
+    AuthApiService,
     UsuarioControllerService,
     ApiConfiguration
   ],

@@ -33,8 +33,8 @@ export class IncluirComponent {
     const paramId = this.route.snapshot.paramMap.get('idMusica');
     if (paramId) {
       const codigo = parseInt(paramId);
-      this.musicaService.buscarPorId({id: codigo}).subscribe(
-        retorno => {
+      this.musicaService.musicaControllerObterPorId({id: codigo}).subscribe(
+        (retorno) => {
           console.log("retorno", retorno);
           this.id = retorno.id;
           this.formGroup.patchValue(retorno);
@@ -47,7 +47,7 @@ export class IncluirComponent {
   }
 
   buscarGeneros() {
-     this.generoService.listAll1().toPromise().then((retorno: any) => {
+     this.generoService.generoControllerListAll().subscribe((retorno: any) => {
       console.log(retorno);
       this.listaGeneros = retorno;
     });
@@ -73,21 +73,21 @@ export class IncluirComponent {
   onSubmit() {
     if (this.formGroup.valid) {
       if (!this.id) {
-        this.musicaService.incluir1({body: this.formGroup.value})
-          .subscribe(retorno => {
+        this.musicaService.musicaControllerIncluir({body: this.formGroup.value})
+          .subscribe((retorno) => {
             console.log("Retorno:", retorno);
             this.showMensagemSimples("Musica incluida com sucesso!")
             this.router.navigate(['/musica']);
-          }, erro => {
+          }, (erro) => {
             console.log("Erro:" + erro);
             alert("Erro ao incluir!");
           })
       } else {
-        this.musicaService.alterar({id: this.id, body: this.formGroup.value})
-          .subscribe(retorno => {
+        this.musicaService.musicaControllerAlterar({id: this.id, body: this.formGroup.value})
+          .subscribe((retorno) => {
             this.showMensagemSimples("Musica alterada com sucesso!");
             this.router.navigate(['/musica']);
-          }, erro => {
+          }, (erro) => {
             console.log("Erro:" + erro);
             alert("Erro ao alterar!");
           })

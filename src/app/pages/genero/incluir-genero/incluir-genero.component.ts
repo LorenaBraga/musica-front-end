@@ -23,8 +23,8 @@ export class IncluirGeneroComponent {
     const paramId = this.route.snapshot.paramMap.get('idGenero');
     if (paramId) {
       const codigo = parseInt(paramId);
-      this.generoService.buscarPorId1({id: codigo}).subscribe(
-        retorno => {
+      this.generoService.generoControllerObterPorId({id: codigo}).subscribe(
+        (retorno) => {
           this.id = retorno.id;
           this.formGroup.patchValue(retorno);
         }
@@ -46,21 +46,21 @@ export class IncluirGeneroComponent {
   onSubmit() {
     if (this.formGroup.valid) {
       if (!this.id) {
-        this.generoService.incluir2({body: this.formGroup.value})
-          .subscribe(retorno => {
+        this.generoService.generoControllerIncluir({body: this.formGroup.value})
+          .subscribe((retorno) => {
             console.log("Retorno:", retorno);
             this.showMensagemSimples("Genero incluido com sucesso!")
             this.router.navigate(['/genero']);
-          }, erro => {
+          }, (erro) => {
             console.log("Erro:" + erro);
             alert("Erro ao incluir!");
           })
       } else {
-        this.generoService.alterar1({id: this.id, body: this.formGroup.value})
-          .subscribe(retorno => {
+        this.generoService.generoControllerAlterar({id: this.id, body: this.formGroup.value})
+          .subscribe((retorno) => {
             this.showMensagemSimples("Genero alterado com sucesso!");
             this.router.navigate(['/genero']);
-          }, erro => {
+          }, (erro) => {
             console.log("Erro:" + erro);
             alert("Erro ao alterar!");
           })

@@ -10,7 +10,7 @@ export class ListarFavoritasComponent implements OnInit{
 
   listaFavoritas: any[] = []
      constructor(private musicaService: MusicaControllerService) {
-       musicaService.listarfavoritas().toPromise().then((value: any) => {
+       musicaService.musicaControllerListarfavoritas().toPromise().then((value: any) => {
         console.log(value);
         this.listaFavoritas = value;
       })

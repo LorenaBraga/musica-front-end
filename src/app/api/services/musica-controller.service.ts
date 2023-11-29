@@ -10,6 +10,9 @@ import { Observable } from 'rxjs';
 import { map, filter } from 'rxjs/operators';
 
 import { MusicaDto } from '../models/musica-dto';
+import { Pageable } from '../models/pageable';
+import { SearchField } from '../models/search-field';
+import { SearchFieldValue } from '../models/search-field-value';
 
 @Injectable({
   providedIn: 'root',
@@ -23,19 +26,76 @@ export class MusicaControllerService extends BaseService {
   }
 
   /**
-   * Path part for operation alterar
+   * Path part for operation musicaControllerObterPorId
    */
-  static readonly AlterarPath = '/api/v1/musica/alterar/{id}';
+  static readonly MusicaControllerObterPorIdPath = '/api/v1/musica/{id}';
 
   /**
-   * Método utilizado para alterar os dados de uma música
+   * Obter os dados completos de uma entidiade pelo id informado!
    *
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `alterar()` instead.
+   * To access only the response body, use `musicaControllerObterPorId()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  musicaControllerObterPorId$Response(params: {
+    id: number;
+  },
+  context?: HttpContext
+
+): Observable<StrictHttpResponse<any>> {
+
+    const rb = new RequestBuilder(this.rootUrl, MusicaControllerService.MusicaControllerObterPorIdPath, 'get');
+    if (params) {
+      rb.path('id', params.id, {});
+    }
+
+    return this.http.request(rb.build({
+      responseType: 'json',
+      accept: 'application/json',
+      context: context
+    })).pipe(
+      filter((r: any) => r instanceof HttpResponse),
+      map((r: HttpResponse<any>) => {
+        return r as StrictHttpResponse<any>;
+      })
+    );
+  }
+
+  /**
+   * Obter os dados completos de uma entidiade pelo id informado!
+   *
+   * This method provides access only to the response body.
+   * To access the full response (for headers, for example), `musicaControllerObterPorId$Response()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  musicaControllerObterPorId(params: {
+    id: number;
+  },
+  context?: HttpContext
+
+): Observable<any> {
+
+    return this.musicaControllerObterPorId$Response(params,context).pipe(
+      map((r: StrictHttpResponse<any>) => r.body as any)
+    );
+  }
+
+  /**
+   * Path part for operation musicaControllerAlterar
+   */
+  static readonly MusicaControllerAlterarPath = '/api/v1/musica/{id}';
+
+  /**
+   * Método utilizado para altlerar os dados de uma entidiade
+   *
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `musicaControllerAlterar()` instead.
    *
    * This method sends `application/json` and handles request body of type `application/json`.
    */
-  alterar$Response(params: {
+  musicaControllerAlterar$Response(params: {
     id: number;
     body: MusicaDto
   },
@@ -43,7 +103,7 @@ export class MusicaControllerService extends BaseService {
 
 ): Observable<StrictHttpResponse<any>> {
 
-    const rb = new RequestBuilder(this.rootUrl, MusicaControllerService.AlterarPath, 'put');
+    const rb = new RequestBuilder(this.rootUrl, MusicaControllerService.MusicaControllerAlterarPath, 'put');
     if (params) {
       rb.path('id', params.id, {});
       rb.body(params.body, 'application/json');
@@ -62,14 +122,14 @@ export class MusicaControllerService extends BaseService {
   }
 
   /**
-   * Método utilizado para alterar os dados de uma música
+   * Método utilizado para altlerar os dados de uma entidiade
    *
    * This method provides access only to the response body.
-   * To access the full response (for headers, for example), `alterar$Response()` instead.
+   * To access the full response (for headers, for example), `musicaControllerAlterar$Response()` instead.
    *
    * This method sends `application/json` and handles request body of type `application/json`.
    */
-  alterar(params: {
+  musicaControllerAlterar(params: {
     id: number;
     body: MusicaDto
   },
@@ -77,32 +137,143 @@ export class MusicaControllerService extends BaseService {
 
 ): Observable<any> {
 
-    return this.alterar$Response(params,context).pipe(
+    return this.musicaControllerAlterar$Response(params,context).pipe(
       map((r: StrictHttpResponse<any>) => r.body as any)
     );
   }
 
   /**
-   * Path part for operation incluir1
+   * Path part for operation musicaControllerRemover
    */
-  static readonly Incluir1Path = '/api/v1/musica/incluir';
+  static readonly MusicaControllerRemoverPath = '/api/v1/musica/{id}';
 
   /**
-   * Método utilizado para realizar a inclusão de uma música
+   * Método utilizado para remover uma entidiade pela id informado
    *
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `incluir1()` instead.
+   * To access only the response body, use `musicaControllerRemover()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  musicaControllerRemover$Response(params: {
+    id: number;
+  },
+  context?: HttpContext
+
+): Observable<StrictHttpResponse<any>> {
+
+    const rb = new RequestBuilder(this.rootUrl, MusicaControllerService.MusicaControllerRemoverPath, 'delete');
+    if (params) {
+      rb.path('id', params.id, {});
+    }
+
+    return this.http.request(rb.build({
+      responseType: 'json',
+      accept: 'application/json',
+      context: context
+    })).pipe(
+      filter((r: any) => r instanceof HttpResponse),
+      map((r: HttpResponse<any>) => {
+        return r as StrictHttpResponse<any>;
+      })
+    );
+  }
+
+  /**
+   * Método utilizado para remover uma entidiade pela id informado
+   *
+   * This method provides access only to the response body.
+   * To access the full response (for headers, for example), `musicaControllerRemover$Response()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  musicaControllerRemover(params: {
+    id: number;
+  },
+  context?: HttpContext
+
+): Observable<any> {
+
+    return this.musicaControllerRemover$Response(params,context).pipe(
+      map((r: StrictHttpResponse<any>) => r.body as any)
+    );
+  }
+
+  /**
+   * Path part for operation musicaControllerListAll
+   */
+  static readonly MusicaControllerListAllPath = '/api/v1/musica';
+
+  /**
+   * Listagem Geral
+   *
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `musicaControllerListAll()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  musicaControllerListAll$Response(params?: {
+  },
+  context?: HttpContext
+
+): Observable<StrictHttpResponse<any>> {
+
+    const rb = new RequestBuilder(this.rootUrl, MusicaControllerService.MusicaControllerListAllPath, 'get');
+    if (params) {
+    }
+
+    return this.http.request(rb.build({
+      responseType: 'json',
+      accept: 'application/json',
+      context: context
+    })).pipe(
+      filter((r: any) => r instanceof HttpResponse),
+      map((r: HttpResponse<any>) => {
+        return r as StrictHttpResponse<any>;
+      })
+    );
+  }
+
+  /**
+   * Listagem Geral
+   *
+   * This method provides access only to the response body.
+   * To access the full response (for headers, for example), `musicaControllerListAll$Response()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  musicaControllerListAll(params?: {
+  },
+  context?: HttpContext
+
+): Observable<any> {
+
+    return this.musicaControllerListAll$Response(params,context).pipe(
+      map((r: StrictHttpResponse<any>) => r.body as any)
+    );
+  }
+
+  /**
+   * Path part for operation musicaControllerIncluir
+   */
+  static readonly MusicaControllerIncluirPath = '/api/v1/musica';
+
+  /**
+   * Método utilizado para realizar a inclusão de um entidade
+   *
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `musicaControllerIncluir()` instead.
    *
    * This method sends `application/json` and handles request body of type `application/json`.
    */
-  incluir1$Response(params: {
+  musicaControllerIncluir$Response(params: {
     body: MusicaDto
   },
   context?: HttpContext
 
 ): Observable<StrictHttpResponse<any>> {
 
-    const rb = new RequestBuilder(this.rootUrl, MusicaControllerService.Incluir1Path, 'post');
+    const rb = new RequestBuilder(this.rootUrl, MusicaControllerService.MusicaControllerIncluirPath, 'post');
     if (params) {
       rb.body(params.body, 'application/json');
     }
@@ -120,46 +291,102 @@ export class MusicaControllerService extends BaseService {
   }
 
   /**
-   * Método utilizado para realizar a inclusão de uma música
+   * Método utilizado para realizar a inclusão de um entidade
    *
    * This method provides access only to the response body.
-   * To access the full response (for headers, for example), `incluir1$Response()` instead.
+   * To access the full response (for headers, for example), `musicaControllerIncluir$Response()` instead.
    *
    * This method sends `application/json` and handles request body of type `application/json`.
    */
-  incluir1(params: {
+  musicaControllerIncluir(params: {
     body: MusicaDto
   },
   context?: HttpContext
 
 ): Observable<any> {
 
-    return this.incluir1$Response(params,context).pipe(
+    return this.musicaControllerIncluir$Response(params,context).pipe(
       map((r: StrictHttpResponse<any>) => r.body as any)
     );
   }
 
   /**
-   * Path part for operation listAll
+   * Path part for operation musicaControllerSearchFieldsList
    */
-  static readonly ListAllPath = '/api/v1/musica/listar';
+  static readonly MusicaControllerSearchFieldsListPath = '/api/v1/musica/search-fields';
 
   /**
-   * Listagem Geral
+   * Listagem dos campos de busca
    *
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `listAll()` instead.
+   * To access only the response body, use `musicaControllerSearchFieldsList()` instead.
    *
    * This method doesn't expect any request body.
    */
-  listAll$Response(params?: {
+  musicaControllerSearchFieldsList$Response(params?: {
+  },
+  context?: HttpContext
+
+): Observable<StrictHttpResponse<Array<SearchField>>> {
+
+    const rb = new RequestBuilder(this.rootUrl, MusicaControllerService.MusicaControllerSearchFieldsListPath, 'get');
+    if (params) {
+    }
+
+    return this.http.request(rb.build({
+      responseType: 'json',
+      accept: 'application/json',
+      context: context
+    })).pipe(
+      filter((r: any) => r instanceof HttpResponse),
+      map((r: HttpResponse<any>) => {
+        return r as StrictHttpResponse<Array<SearchField>>;
+      })
+    );
+  }
+
+  /**
+   * Listagem dos campos de busca
+   *
+   * This method provides access only to the response body.
+   * To access the full response (for headers, for example), `musicaControllerSearchFieldsList$Response()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  musicaControllerSearchFieldsList(params?: {
+  },
+  context?: HttpContext
+
+): Observable<Array<SearchField>> {
+
+    return this.musicaControllerSearchFieldsList$Response(params,context).pipe(
+      map((r: StrictHttpResponse<Array<SearchField>>) => r.body as Array<SearchField>)
+    );
+  }
+
+  /**
+   * Path part for operation musicaControllerSearchFieldsAction
+   */
+  static readonly MusicaControllerSearchFieldsActionPath = '/api/v1/musica/search-fields';
+
+  /**
+   * Realiza a busca pelos valores dos campos informados
+   *
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `musicaControllerSearchFieldsAction()` instead.
+   *
+   * This method sends `application/json` and handles request body of type `application/json`.
+   */
+  musicaControllerSearchFieldsAction$Response(params: {
+    body: Array<SearchFieldValue>
   },
   context?: HttpContext
 
 ): Observable<StrictHttpResponse<any>> {
 
-    const rb = new RequestBuilder(this.rootUrl, MusicaControllerService.ListAllPath, 'get');
+    const rb = new RequestBuilder(this.rootUrl, MusicaControllerService.MusicaControllerSearchFieldsActionPath, 'post');
     if (params) {
+      rb.body(params.body, 'application/json');
     }
 
     return this.http.request(rb.build({
@@ -175,44 +402,102 @@ export class MusicaControllerService extends BaseService {
   }
 
   /**
-   * Listagem Geral
+   * Realiza a busca pelos valores dos campos informados
    *
    * This method provides access only to the response body.
-   * To access the full response (for headers, for example), `listAll$Response()` instead.
+   * To access the full response (for headers, for example), `musicaControllerSearchFieldsAction$Response()` instead.
    *
-   * This method doesn't expect any request body.
+   * This method sends `application/json` and handles request body of type `application/json`.
    */
-  listAll(params?: {
+  musicaControllerSearchFieldsAction(params: {
+    body: Array<SearchFieldValue>
   },
   context?: HttpContext
 
 ): Observable<any> {
 
-    return this.listAll$Response(params,context).pipe(
+    return this.musicaControllerSearchFieldsAction$Response(params,context).pipe(
       map((r: StrictHttpResponse<any>) => r.body as any)
     );
   }
 
   /**
-   * Path part for operation listarfavoritas
+   * Path part for operation musicaControllerListAllPage
    */
-  static readonly ListarfavoritasPath = '/api/v1/musica/listar favoritas';
+  static readonly MusicaControllerListAllPagePath = '/api/v1/musica/page';
+
+  /**
+   * Listagem Geral paginada
+   *
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `musicaControllerListAllPage()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  musicaControllerListAllPage$Response(params: {
+    page: Pageable;
+  },
+  context?: HttpContext
+
+): Observable<StrictHttpResponse<any>> {
+
+    const rb = new RequestBuilder(this.rootUrl, MusicaControllerService.MusicaControllerListAllPagePath, 'get');
+    if (params) {
+      rb.query('page', params.page, {});
+    }
+
+    return this.http.request(rb.build({
+      responseType: 'json',
+      accept: 'application/json',
+      context: context
+    })).pipe(
+      filter((r: any) => r instanceof HttpResponse),
+      map((r: HttpResponse<any>) => {
+        return r as StrictHttpResponse<any>;
+      })
+    );
+  }
+
+  /**
+   * Listagem Geral paginada
+   *
+   * This method provides access only to the response body.
+   * To access the full response (for headers, for example), `musicaControllerListAllPage$Response()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  musicaControllerListAllPage(params: {
+    page: Pageable;
+  },
+  context?: HttpContext
+
+): Observable<any> {
+
+    return this.musicaControllerListAllPage$Response(params,context).pipe(
+      map((r: StrictHttpResponse<any>) => r.body as any)
+    );
+  }
+
+  /**
+   * Path part for operation musicaControllerListarfavoritas
+   */
+  static readonly MusicaControllerListarfavoritasPath = '/api/v1/musica/listar favoritas';
 
   /**
    * Listagem Favoritas
    *
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `listarfavoritas()` instead.
+   * To access only the response body, use `musicaControllerListarfavoritas()` instead.
    *
    * This method doesn't expect any request body.
    */
-  listarfavoritas$Response(params?: {
+  musicaControllerListarfavoritas$Response(params?: {
   },
   context?: HttpContext
 
 ): Observable<StrictHttpResponse<any>> {
 
-    const rb = new RequestBuilder(this.rootUrl, MusicaControllerService.ListarfavoritasPath, 'get');
+    const rb = new RequestBuilder(this.rootUrl, MusicaControllerService.MusicaControllerListarfavoritasPath, 'get');
     if (params) {
     }
 
@@ -232,99 +517,42 @@ export class MusicaControllerService extends BaseService {
    * Listagem Favoritas
    *
    * This method provides access only to the response body.
-   * To access the full response (for headers, for example), `listarfavoritas$Response()` instead.
+   * To access the full response (for headers, for example), `musicaControllerListarfavoritas$Response()` instead.
    *
    * This method doesn't expect any request body.
    */
-  listarfavoritas(params?: {
+  musicaControllerListarfavoritas(params?: {
   },
   context?: HttpContext
 
 ): Observable<any> {
 
-    return this.listarfavoritas$Response(params,context).pipe(
+    return this.musicaControllerListarfavoritas$Response(params,context).pipe(
       map((r: StrictHttpResponse<any>) => r.body as any)
     );
   }
 
   /**
-   * Path part for operation buscarPorId
+   * Path part for operation musicaControllerFavoritarMusica
    */
-  static readonly BuscarPorIdPath = '/api/v1/musica/getbyID/{id}';
-
-  /**
-   * Método utilizado para buscar uma música pelo id informado
-   *
-   * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `buscarPorId()` instead.
-   *
-   * This method doesn't expect any request body.
-   */
-  buscarPorId$Response(params: {
-    id: number;
-  },
-  context?: HttpContext
-
-): Observable<StrictHttpResponse<any>> {
-
-    const rb = new RequestBuilder(this.rootUrl, MusicaControllerService.BuscarPorIdPath, 'get');
-    if (params) {
-      rb.path('id', params.id, {});
-    }
-
-    return this.http.request(rb.build({
-      responseType: 'json',
-      accept: 'application/json',
-      context: context
-    })).pipe(
-      filter((r: any) => r instanceof HttpResponse),
-      map((r: HttpResponse<any>) => {
-        return r as StrictHttpResponse<any>;
-      })
-    );
-  }
-
-  /**
-   * Método utilizado para buscar uma música pelo id informado
-   *
-   * This method provides access only to the response body.
-   * To access the full response (for headers, for example), `buscarPorId$Response()` instead.
-   *
-   * This method doesn't expect any request body.
-   */
-  buscarPorId(params: {
-    id: number;
-  },
-  context?: HttpContext
-
-): Observable<any> {
-
-    return this.buscarPorId$Response(params,context).pipe(
-      map((r: StrictHttpResponse<any>) => r.body as any)
-    );
-  }
-
-  /**
-   * Path part for operation favoritarMusica
-   */
-  static readonly FavoritarMusicaPath = '/api/v1/musica/favoritar/{id}';
+  static readonly MusicaControllerFavoritarMusicaPath = '/api/v1/musica/favoritar/{id}';
 
   /**
    * Método utilizado para favoritar uma música pelo id informado
    *
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `favoritarMusica()` instead.
+   * To access only the response body, use `musicaControllerFavoritarMusica()` instead.
    *
    * This method doesn't expect any request body.
    */
-  favoritarMusica$Response(params: {
+  musicaControllerFavoritarMusica$Response(params: {
     id: number;
   },
   context?: HttpContext
 
 ): Observable<StrictHttpResponse<any>> {
 
-    const rb = new RequestBuilder(this.rootUrl, MusicaControllerService.FavoritarMusicaPath, 'get');
+    const rb = new RequestBuilder(this.rootUrl, MusicaControllerService.MusicaControllerFavoritarMusicaPath, 'get');
     if (params) {
       rb.path('id', params.id, {});
     }
@@ -345,75 +573,18 @@ export class MusicaControllerService extends BaseService {
    * Método utilizado para favoritar uma música pelo id informado
    *
    * This method provides access only to the response body.
-   * To access the full response (for headers, for example), `favoritarMusica$Response()` instead.
+   * To access the full response (for headers, for example), `musicaControllerFavoritarMusica$Response()` instead.
    *
    * This method doesn't expect any request body.
    */
-  favoritarMusica(params: {
+  musicaControllerFavoritarMusica(params: {
     id: number;
   },
   context?: HttpContext
 
 ): Observable<any> {
 
-    return this.favoritarMusica$Response(params,context).pipe(
-      map((r: StrictHttpResponse<any>) => r.body as any)
-    );
-  }
-
-  /**
-   * Path part for operation excluir
-   */
-  static readonly ExcluirPath = '/api/v1/musica/excluir/{id}';
-
-  /**
-   * Método utilizado para remover uma música pelo id informado
-   *
-   * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `excluir()` instead.
-   *
-   * This method doesn't expect any request body.
-   */
-  excluir$Response(params: {
-    id: number;
-  },
-  context?: HttpContext
-
-): Observable<StrictHttpResponse<any>> {
-
-    const rb = new RequestBuilder(this.rootUrl, MusicaControllerService.ExcluirPath, 'delete');
-    if (params) {
-      rb.path('id', params.id, {});
-    }
-
-    return this.http.request(rb.build({
-      responseType: 'json',
-      accept: 'application/json',
-      context: context
-    })).pipe(
-      filter((r: any) => r instanceof HttpResponse),
-      map((r: HttpResponse<any>) => {
-        return r as StrictHttpResponse<any>;
-      })
-    );
-  }
-
-  /**
-   * Método utilizado para remover uma música pelo id informado
-   *
-   * This method provides access only to the response body.
-   * To access the full response (for headers, for example), `excluir$Response()` instead.
-   *
-   * This method doesn't expect any request body.
-   */
-  excluir(params: {
-    id: number;
-  },
-  context?: HttpContext
-
-): Observable<any> {
-
-    return this.excluir$Response(params,context).pipe(
+    return this.musicaControllerFavoritarMusica$Response(params,context).pipe(
       map((r: StrictHttpResponse<any>) => r.body as any)
     );
   }

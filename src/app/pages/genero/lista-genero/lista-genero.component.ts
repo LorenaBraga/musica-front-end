@@ -24,18 +24,18 @@ export class ListaGeneroComponent implements OnInit {
   }
 
   private buscarDados() {
-    this.generoService.listAll1().subscribe(data => {
-      this.generoDataSource.data = data;
+    this.generoService.generoControllerListAll$Response().subscribe(data => {
+      this.generoDataSource.data = data.body;
     })
   }
 
   remover(generoDto: GeneroDto) {
-    this.generoService.excluir1({id: generoDto.id || 0})
-      .subscribe(retorno => {
+    this.generoService.generoControllerRemover({id: generoDto.id || 0})
+      .subscribe((retorno) => {
           this.buscarDados();
           this.mostrarMensagem("Excluído com sucesso ",5000);
           console.log("Exclusão:", retorno);
-        }, error => {
+        }, (error) => {
           if (error.status === 404) {
             this.mostrarMensagem("Genero não existe mais")
           } else {

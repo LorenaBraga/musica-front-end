@@ -29,20 +29,20 @@ export class ListaComponent implements OnInit{
   }
 
   private buscarDados() {
-    this.musicaControllerService.listAll().subscribe(data => {
-      data.sort((a: any, b: any) => a.id - b.id);
-      this.musicaDataSource.data = data;
+    this.musicaControllerService.musicaControllerListAll$Response().subscribe((data) => {
+      data.body.sort((a: any, b: any) => a.id - b.id);
+      this.musicaDataSource.data = data.body;
     })
   }
 
   remover(musicaDto: MusicaDto){
     console.log("Removido", musicaDto.id);
-    this.musicaControllerService.excluir({id: musicaDto.id || 0})
-      .subscribe(retorno => {
+    this.musicaControllerService.musicaControllerRemover({id: musicaDto.id || 0})
+      .subscribe((retorno) => {
           this.buscarDados();
           this.mostrarMensagem("Excluído com sucesso ",5000);
           console.log("Exclusão:", retorno);
-        }, error => {
+        }, (error) => {
           if (error.status === 404) {
             this.mostrarMensagem("Música não existe mais")
           } else {
@@ -54,8 +54,8 @@ export class ListaComponent implements OnInit{
   }
 
   favoritar(musicaDTO: MusicaDto){
-    this.musicaControllerService.favoritarMusica({id : musicaDTO.id || 0})
-      .subscribe(retorno => {
+    this.musicaControllerService.musicaControllerFavoritarMusica({id : musicaDTO.id || 0})
+      .subscribe((retorno) => {
         this.buscarDados();
         if (retorno.favorito) {
           this.mostrarMensagem("Música favoritada", 5000);
@@ -63,7 +63,7 @@ export class ListaComponent implements OnInit{
           this.mostrarMensagem("Música desfavoritada", 5000);
         }
 
-      }, error => {
+      }, (error) => {
         if (error.status === 404) {
           this.mostrarMensagem("Música não existe mais")
         } else {

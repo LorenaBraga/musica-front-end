@@ -10,6 +10,9 @@ import { Observable } from 'rxjs';
 import { map, filter } from 'rxjs/operators';
 
 import { GeneroDto } from '../models/genero-dto';
+import { Pageable } from '../models/pageable';
+import { SearchField } from '../models/search-field';
+import { SearchFieldValue } from '../models/search-field-value';
 
 @Injectable({
   providedIn: 'root',
@@ -23,19 +26,76 @@ export class GeneroControllerService extends BaseService {
   }
 
   /**
-   * Path part for operation alterar1
+   * Path part for operation generoControllerObterPorId
    */
-  static readonly Alterar1Path = '/api/v1/genero/alterar/{id}';
+  static readonly GeneroControllerObterPorIdPath = '/api/v1/genero/{id}';
 
   /**
-   * Método utilizado para alterar os dados de um genero
+   * Obter os dados completos de uma entidiade pelo id informado!
    *
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `alterar1()` instead.
+   * To access only the response body, use `generoControllerObterPorId()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  generoControllerObterPorId$Response(params: {
+    id: number;
+  },
+  context?: HttpContext
+
+): Observable<StrictHttpResponse<any>> {
+
+    const rb = new RequestBuilder(this.rootUrl, GeneroControllerService.GeneroControllerObterPorIdPath, 'get');
+    if (params) {
+      rb.path('id', params.id, {});
+    }
+
+    return this.http.request(rb.build({
+      responseType: 'json',
+      accept: 'application/json',
+      context: context
+    })).pipe(
+      filter((r: any) => r instanceof HttpResponse),
+      map((r: HttpResponse<any>) => {
+        return r as StrictHttpResponse<any>;
+      })
+    );
+  }
+
+  /**
+   * Obter os dados completos de uma entidiade pelo id informado!
+   *
+   * This method provides access only to the response body.
+   * To access the full response (for headers, for example), `generoControllerObterPorId$Response()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  generoControllerObterPorId(params: {
+    id: number;
+  },
+  context?: HttpContext
+
+): Observable<any> {
+
+    return this.generoControllerObterPorId$Response(params,context).pipe(
+      map((r: StrictHttpResponse<any>) => r.body as any)
+    );
+  }
+
+  /**
+   * Path part for operation generoControllerAlterar
+   */
+  static readonly GeneroControllerAlterarPath = '/api/v1/genero/{id}';
+
+  /**
+   * Método utilizado para altlerar os dados de uma entidiade
+   *
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `generoControllerAlterar()` instead.
    *
    * This method sends `application/json` and handles request body of type `application/json`.
    */
-  alterar1$Response(params: {
+  generoControllerAlterar$Response(params: {
     id: number;
     body: GeneroDto
   },
@@ -43,7 +103,7 @@ export class GeneroControllerService extends BaseService {
 
 ): Observable<StrictHttpResponse<any>> {
 
-    const rb = new RequestBuilder(this.rootUrl, GeneroControllerService.Alterar1Path, 'put');
+    const rb = new RequestBuilder(this.rootUrl, GeneroControllerService.GeneroControllerAlterarPath, 'put');
     if (params) {
       rb.path('id', params.id, {});
       rb.body(params.body, 'application/json');
@@ -62,14 +122,14 @@ export class GeneroControllerService extends BaseService {
   }
 
   /**
-   * Método utilizado para alterar os dados de um genero
+   * Método utilizado para altlerar os dados de uma entidiade
    *
    * This method provides access only to the response body.
-   * To access the full response (for headers, for example), `alterar1$Response()` instead.
+   * To access the full response (for headers, for example), `generoControllerAlterar$Response()` instead.
    *
    * This method sends `application/json` and handles request body of type `application/json`.
    */
-  alterar1(params: {
+  generoControllerAlterar(params: {
     id: number;
     body: GeneroDto
   },
@@ -77,32 +137,143 @@ export class GeneroControllerService extends BaseService {
 
 ): Observable<any> {
 
-    return this.alterar1$Response(params,context).pipe(
+    return this.generoControllerAlterar$Response(params,context).pipe(
       map((r: StrictHttpResponse<any>) => r.body as any)
     );
   }
 
   /**
-   * Path part for operation incluir2
+   * Path part for operation generoControllerRemover
    */
-  static readonly Incluir2Path = '/api/v1/genero/incluir';
+  static readonly GeneroControllerRemoverPath = '/api/v1/genero/{id}';
 
   /**
-   * Método utilizado para realizar a inclusão de um genero
+   * Método utilizado para remover uma entidiade pela id informado
    *
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `incluir2()` instead.
+   * To access only the response body, use `generoControllerRemover()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  generoControllerRemover$Response(params: {
+    id: number;
+  },
+  context?: HttpContext
+
+): Observable<StrictHttpResponse<any>> {
+
+    const rb = new RequestBuilder(this.rootUrl, GeneroControllerService.GeneroControllerRemoverPath, 'delete');
+    if (params) {
+      rb.path('id', params.id, {});
+    }
+
+    return this.http.request(rb.build({
+      responseType: 'json',
+      accept: 'application/json',
+      context: context
+    })).pipe(
+      filter((r: any) => r instanceof HttpResponse),
+      map((r: HttpResponse<any>) => {
+        return r as StrictHttpResponse<any>;
+      })
+    );
+  }
+
+  /**
+   * Método utilizado para remover uma entidiade pela id informado
+   *
+   * This method provides access only to the response body.
+   * To access the full response (for headers, for example), `generoControllerRemover$Response()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  generoControllerRemover(params: {
+    id: number;
+  },
+  context?: HttpContext
+
+): Observable<any> {
+
+    return this.generoControllerRemover$Response(params,context).pipe(
+      map((r: StrictHttpResponse<any>) => r.body as any)
+    );
+  }
+
+  /**
+   * Path part for operation generoControllerListAll
+   */
+  static readonly GeneroControllerListAllPath = '/api/v1/genero';
+
+  /**
+   * Listagem Geral
+   *
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `generoControllerListAll()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  generoControllerListAll$Response(params?: {
+  },
+  context?: HttpContext
+
+): Observable<StrictHttpResponse<any>> {
+
+    const rb = new RequestBuilder(this.rootUrl, GeneroControllerService.GeneroControllerListAllPath, 'get');
+    if (params) {
+    }
+
+    return this.http.request(rb.build({
+      responseType: 'json',
+      accept: 'application/json',
+      context: context
+    })).pipe(
+      filter((r: any) => r instanceof HttpResponse),
+      map((r: HttpResponse<any>) => {
+        return r as StrictHttpResponse<any>;
+      })
+    );
+  }
+
+  /**
+   * Listagem Geral
+   *
+   * This method provides access only to the response body.
+   * To access the full response (for headers, for example), `generoControllerListAll$Response()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  generoControllerListAll(params?: {
+  },
+  context?: HttpContext
+
+): Observable<any> {
+
+    return this.generoControllerListAll$Response(params,context).pipe(
+      map((r: StrictHttpResponse<any>) => r.body as any)
+    );
+  }
+
+  /**
+   * Path part for operation generoControllerIncluir
+   */
+  static readonly GeneroControllerIncluirPath = '/api/v1/genero';
+
+  /**
+   * Método utilizado para realizar a inclusão de um entidade
+   *
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `generoControllerIncluir()` instead.
    *
    * This method sends `application/json` and handles request body of type `application/json`.
    */
-  incluir2$Response(params: {
+  generoControllerIncluir$Response(params: {
     body: GeneroDto
   },
   context?: HttpContext
 
 ): Observable<StrictHttpResponse<any>> {
 
-    const rb = new RequestBuilder(this.rootUrl, GeneroControllerService.Incluir2Path, 'post');
+    const rb = new RequestBuilder(this.rootUrl, GeneroControllerService.GeneroControllerIncluirPath, 'post');
     if (params) {
       rb.body(params.body, 'application/json');
     }
@@ -120,46 +291,102 @@ export class GeneroControllerService extends BaseService {
   }
 
   /**
-   * Método utilizado para realizar a inclusão de um genero
+   * Método utilizado para realizar a inclusão de um entidade
    *
    * This method provides access only to the response body.
-   * To access the full response (for headers, for example), `incluir2$Response()` instead.
+   * To access the full response (for headers, for example), `generoControllerIncluir$Response()` instead.
    *
    * This method sends `application/json` and handles request body of type `application/json`.
    */
-  incluir2(params: {
+  generoControllerIncluir(params: {
     body: GeneroDto
   },
   context?: HttpContext
 
 ): Observable<any> {
 
-    return this.incluir2$Response(params,context).pipe(
+    return this.generoControllerIncluir$Response(params,context).pipe(
       map((r: StrictHttpResponse<any>) => r.body as any)
     );
   }
 
   /**
-   * Path part for operation listAll1
+   * Path part for operation generoControllerSearchFieldsList
    */
-  static readonly ListAll1Path = '/api/v1/genero/listar';
+  static readonly GeneroControllerSearchFieldsListPath = '/api/v1/genero/search-fields';
 
   /**
-   * Listagem Geral
+   * Listagem dos campos de busca
    *
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `listAll1()` instead.
+   * To access only the response body, use `generoControllerSearchFieldsList()` instead.
    *
    * This method doesn't expect any request body.
    */
-  listAll1$Response(params?: {
+  generoControllerSearchFieldsList$Response(params?: {
+  },
+  context?: HttpContext
+
+): Observable<StrictHttpResponse<Array<SearchField>>> {
+
+    const rb = new RequestBuilder(this.rootUrl, GeneroControllerService.GeneroControllerSearchFieldsListPath, 'get');
+    if (params) {
+    }
+
+    return this.http.request(rb.build({
+      responseType: 'json',
+      accept: 'application/json',
+      context: context
+    })).pipe(
+      filter((r: any) => r instanceof HttpResponse),
+      map((r: HttpResponse<any>) => {
+        return r as StrictHttpResponse<Array<SearchField>>;
+      })
+    );
+  }
+
+  /**
+   * Listagem dos campos de busca
+   *
+   * This method provides access only to the response body.
+   * To access the full response (for headers, for example), `generoControllerSearchFieldsList$Response()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  generoControllerSearchFieldsList(params?: {
+  },
+  context?: HttpContext
+
+): Observable<Array<SearchField>> {
+
+    return this.generoControllerSearchFieldsList$Response(params,context).pipe(
+      map((r: StrictHttpResponse<Array<SearchField>>) => r.body as Array<SearchField>)
+    );
+  }
+
+  /**
+   * Path part for operation generoControllerSearchFieldsAction
+   */
+  static readonly GeneroControllerSearchFieldsActionPath = '/api/v1/genero/search-fields';
+
+  /**
+   * Realiza a busca pelos valores dos campos informados
+   *
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `generoControllerSearchFieldsAction()` instead.
+   *
+   * This method sends `application/json` and handles request body of type `application/json`.
+   */
+  generoControllerSearchFieldsAction$Response(params: {
+    body: Array<SearchFieldValue>
   },
   context?: HttpContext
 
 ): Observable<StrictHttpResponse<any>> {
 
-    const rb = new RequestBuilder(this.rootUrl, GeneroControllerService.ListAll1Path, 'get');
+    const rb = new RequestBuilder(this.rootUrl, GeneroControllerService.GeneroControllerSearchFieldsActionPath, 'post');
     if (params) {
+      rb.body(params.body, 'application/json');
     }
 
     return this.http.request(rb.build({
@@ -175,47 +402,48 @@ export class GeneroControllerService extends BaseService {
   }
 
   /**
-   * Listagem Geral
+   * Realiza a busca pelos valores dos campos informados
    *
    * This method provides access only to the response body.
-   * To access the full response (for headers, for example), `listAll1$Response()` instead.
+   * To access the full response (for headers, for example), `generoControllerSearchFieldsAction$Response()` instead.
    *
-   * This method doesn't expect any request body.
+   * This method sends `application/json` and handles request body of type `application/json`.
    */
-  listAll1(params?: {
+  generoControllerSearchFieldsAction(params: {
+    body: Array<SearchFieldValue>
   },
   context?: HttpContext
 
 ): Observable<any> {
 
-    return this.listAll1$Response(params,context).pipe(
+    return this.generoControllerSearchFieldsAction$Response(params,context).pipe(
       map((r: StrictHttpResponse<any>) => r.body as any)
     );
   }
 
   /**
-   * Path part for operation buscarPorId1
+   * Path part for operation generoControllerListAllPage
    */
-  static readonly BuscarPorId1Path = '/api/v1/genero/getbyID/{id}';
+  static readonly GeneroControllerListAllPagePath = '/api/v1/genero/page';
 
   /**
-   * Método utilizado para buscar um genero pelo id informado
+   * Listagem Geral paginada
    *
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `buscarPorId1()` instead.
+   * To access only the response body, use `generoControllerListAllPage()` instead.
    *
    * This method doesn't expect any request body.
    */
-  buscarPorId1$Response(params: {
-    id: number;
+  generoControllerListAllPage$Response(params: {
+    page: Pageable;
   },
   context?: HttpContext
 
 ): Observable<StrictHttpResponse<any>> {
 
-    const rb = new RequestBuilder(this.rootUrl, GeneroControllerService.BuscarPorId1Path, 'get');
+    const rb = new RequestBuilder(this.rootUrl, GeneroControllerService.GeneroControllerListAllPagePath, 'get');
     if (params) {
-      rb.path('id', params.id, {});
+      rb.query('page', params.page, {});
     }
 
     return this.http.request(rb.build({
@@ -231,78 +459,21 @@ export class GeneroControllerService extends BaseService {
   }
 
   /**
-   * Método utilizado para buscar um genero pelo id informado
+   * Listagem Geral paginada
    *
    * This method provides access only to the response body.
-   * To access the full response (for headers, for example), `buscarPorId1$Response()` instead.
+   * To access the full response (for headers, for example), `generoControllerListAllPage$Response()` instead.
    *
    * This method doesn't expect any request body.
    */
-  buscarPorId1(params: {
-    id: number;
+  generoControllerListAllPage(params: {
+    page: Pageable;
   },
   context?: HttpContext
 
 ): Observable<any> {
 
-    return this.buscarPorId1$Response(params,context).pipe(
-      map((r: StrictHttpResponse<any>) => r.body as any)
-    );
-  }
-
-  /**
-   * Path part for operation excluir1
-   */
-  static readonly Excluir1Path = '/api/v1/genero/excluir/{id}';
-
-  /**
-   * Método utilizado para remover um genero pelo id informado
-   *
-   * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `excluir1()` instead.
-   *
-   * This method doesn't expect any request body.
-   */
-  excluir1$Response(params: {
-    id: number;
-  },
-  context?: HttpContext
-
-): Observable<StrictHttpResponse<any>> {
-
-    const rb = new RequestBuilder(this.rootUrl, GeneroControllerService.Excluir1Path, 'delete');
-    if (params) {
-      rb.path('id', params.id, {});
-    }
-
-    return this.http.request(rb.build({
-      responseType: 'json',
-      accept: 'application/json',
-      context: context
-    })).pipe(
-      filter((r: any) => r instanceof HttpResponse),
-      map((r: HttpResponse<any>) => {
-        return r as StrictHttpResponse<any>;
-      })
-    );
-  }
-
-  /**
-   * Método utilizado para remover um genero pelo id informado
-   *
-   * This method provides access only to the response body.
-   * To access the full response (for headers, for example), `excluir1$Response()` instead.
-   *
-   * This method doesn't expect any request body.
-   */
-  excluir1(params: {
-    id: number;
-  },
-  context?: HttpContext
-
-): Observable<any> {
-
-    return this.excluir1$Response(params,context).pipe(
+    return this.generoControllerListAllPage$Response(params,context).pipe(
       map((r: StrictHttpResponse<any>) => r.body as any)
     );
   }

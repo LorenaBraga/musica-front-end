@@ -4,7 +4,7 @@ import { UsuarioFuncionalidadeDto } from './usuario-funcionalidade-dto';
 export interface UsuarioDto {
   email?: string;
   funcionalidades?: Array<UsuarioFuncionalidadeDto>;
-  id?: number;
+  id?: string;
   login?: string;
   nome?: string;
   senha?: string;
