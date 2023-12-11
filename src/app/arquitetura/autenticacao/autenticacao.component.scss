@@ -1,0 +1,48 @@
+.container {
+  width: 100%;
+  padding-right: 15px;
+  padding-left: 15px;
+  padding-top: 15%;
+  margin-right: auto;
+  margin-left: auto;
+  display: flex;
+  flex-direction: row;
+  place-content: center;
+  align-items: center;
+}
+
+mat-card {
+  width: 300px;
+  display: flex;
+}
+
+::ng-deep body {
+  background: #E595DEFF !important;
+}
+
+.login-content {
+  padding-top: 30px;
+  display: flex;
+  flex-direction: column;
+  place-content: center;
+  align-items: center;
+}
+
+.icon_size {
+  font-size: 4em;
+  //color: #393068;
+  margin-bottom: 40px;
+  margin-left: -1em;
+}
+
+::ng-deep.mat-mdc-table .mdc-data-table__header-row {
+  background-color: #E595DEFF;
+}
+
+::ng-deep.mdc-button--raised {
+  background-color: #E595DEFF !important;
+  margin-top: 8px;
+}
+
+
+

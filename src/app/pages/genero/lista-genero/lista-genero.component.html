@@ -1,8 +1,11 @@
-<div class="mat-elevation-z8">
-  <button mat-button class="menu-button" [routerLink]="['/genero', 'cadastrar']">
-    <mat-icon>person</mat-icon>
-    <span>Cadastrar</span>
-  </button>
+<div class="mat-elevation-z8 content-table">
+  <app-search-component [controller]="generoService"  (onSearchResult)="showResult($event)" />
+  <div class="div-button">
+    <button mat-button mat-raised-button class="menu-button" routerLink="/genero/incluir">
+      <mat-icon>person</mat-icon>
+      <span>Cadastrar</span>
+    </button>
+  </div>
   <table mat-table [dataSource]="generoDataSource">
     <ng-container matColumnDef="id">
       <th mat-header-cell *matHeaderCellDef> id </th>
@@ -17,7 +20,9 @@
     <ng-container matColumnDef="acoes" style=": 20px">
       <th mat-header-cell *matHeaderCellDef> Ação </th>
       <td mat-cell *matCellDef="let element">
-        <button mat-icon-button class="btnEditar" [routerLink]="['/genero',element.id]">
+        <button mat-icon-button class="btnEditar"
+                *ngIf="securityService.hasRoles('ROLE_GRUPO_ALTERAR')"
+                [routerLink]="['/genero', element.id, 'alterar']">
           <mat-icon>edit</mat-icon>
         </button>
         <button mat-icon-button (click)="remover(element)">

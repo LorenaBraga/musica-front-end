@@ -13,6 +13,13 @@ import {MatDatepickerModule} from "@angular/material/datepicker";
 import {IncluirGeneroComponent} from './incluir-genero/incluir-genero.component';
 import {ListaGeneroComponent} from './lista-genero/lista-genero.component';
 import {generoRoutes} from "./genero-routing.module"
+import {MessageModule} from "../../arquitetura/message/message.module";
+import {ValidationModule} from "../../adminmodule/shared/validation/validation.module";
+import {FlexLayoutModule} from "@angular/flex-layout";
+import {MatCardModule} from "@angular/material/card";
+import {MatSelectModule} from "@angular/material/select";
+import {MatAutocompleteModule} from "@angular/material/autocomplete";
+import {SearchModule} from "../../arquitetura/search-module/search.module";
 
 @NgModule({
   declarations: [
@@ -21,16 +28,24 @@ import {generoRoutes} from "./genero-routing.module"
   ],
   imports: [
     CommonModule,
-    RouterModule.forChild(generoRoutes),
+    MessageModule,
+    ValidationModule,
     MatTableModule,
     MatButtonModule,
+    RouterModule.forChild(generoRoutes),
     MatIconModule,
     HttpClientModule,
     MatSnackBarModule,
     MatFormFieldModule,
     MatInputModule,
     ReactiveFormsModule,
-    MatDatepickerModule
+    MatDatepickerModule,
+    FlexLayoutModule,
+    MatCardModule,
+    MatSelectModule,
+    MatAutocompleteModule,
+    SearchModule,
+    SearchModule
   ]
 })
 export class GeneroModule {

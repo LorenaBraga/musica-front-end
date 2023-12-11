@@ -58,15 +58,15 @@
       </mat-error>
     </mat-form-field>
 
-    <mat-form-field formArrayName="genero">
+    <mat-form-field >
       <mat-label>Genero</mat-label>
-      <mat-select (selectionchange)="selectGeneroChange($event)" required formControlName="id" >
+      <mat-select (selectionchange)="selectGeneroChange($event)" required formControlName="id_genero" >
         <mat-option>--</mat-option>
-        <mat-option *ngFor="let genero of listaGeneros" [value]="genero.id" (select)="genero.id == formGroup.value.genero.id">
+        <mat-option *ngFor="let genero of listaGeneros" [value]="genero.id" (select)="genero.id == formGroup.value.id_genero">
           {{genero.nome}}
         </mat-option>
       </mat-select>
-      <mat-error *ngIf="!formGroup.value.genero.id">
+      <mat-error *ngIf="!formGroup.value.id_genero">
         Genero é obrigatório
       </mat-error>
     </mat-form-field>

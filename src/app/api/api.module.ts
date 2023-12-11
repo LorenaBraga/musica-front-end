@@ -4,10 +4,12 @@ import { NgModule, ModuleWithProviders, SkipSelf, Optional } from '@angular/core
 import { HttpClient } from '@angular/common/http';
 import { ApiConfiguration, ApiConfigurationParams } from './api-configuration';
 
+import { UsuarioApiService } from './services/usuario-api.service';
 import { MusicaControllerService } from './services/musica-controller.service';
+import { GrupoApiService } from './services/grupo-api.service';
 import { GeneroControllerService } from './services/genero-controller.service';
 import { AuthApiService } from './services/auth-api.service';
-import { UsuarioControllerService } from './services/usuario-controller.service';
+import { ModuloSistemaApiService } from './services/modulo-sistema-api.service';
 
 /**
  * Module that provides all services and configuration.
@@ -17,10 +19,12 @@ import { UsuarioControllerService } from './services/usuario-controller.service'
   exports: [],
   declarations: [],
   providers: [
+    UsuarioApiService,
     MusicaControllerService,
+    GrupoApiService,
     GeneroControllerService,
     AuthApiService,
-    UsuarioControllerService,
+    ModuloSistemaApiService,
     ApiConfiguration
   ],
 })

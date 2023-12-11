@@ -17,6 +17,9 @@ import {MatSelectModule} from "@angular/material/select";
 import { ListarFavoritasComponent } from './musica/listar-favoritas/listar-favoritas.component';
 import {MatExpansionModule} from "@angular/material/expansion";
 import {MatCardModule} from "@angular/material/card";
+import {MessageModule} from "../arquitetura/message/message.module";
+import {ValidationModule} from "../adminmodule/shared/validation/validation.module";
+import {SearchModule} from "../arquitetura/search-module/search.module";
 
 @NgModule({
   declarations: [
@@ -38,7 +41,10 @@ import {MatCardModule} from "@angular/material/card";
     MatDatepickerModule,
     MatSelectModule,
     MatExpansionModule,
-    MatCardModule
+    MatCardModule,
+    MessageModule,
+    ValidationModule,
+    SearchModule,
   ]
 })
 export class MusicaModule { }

@@ -3,24 +3,40 @@ import {MatTableDataSource} from "@angular/material/table";
 import {GeneroDto} from "../../../api/models/genero-dto";
 import {GeneroControllerService} from "../../../api/services/genero-controller.service";
 import {MatSnackBar} from "@angular/material/snack-bar";
+import {BaseComponent} from "../../../core/BaseComponent";
+import {ActivatedRoute, Router} from "@angular/router";
+import {SecurityService} from "../../../arquitetura/security/security.service";
 
 @Component({
   selector: 'app-lista-genero',
   templateUrl: './lista-genero.component.html',
   styleUrls: ['./lista-genero.component.css']
 })
-export class ListaGeneroComponent implements OnInit {
+export class ListaGeneroComponent extends BaseComponent<GeneroDto> implements OnInit {
 
   displayedColumns: string[] = ['id', 'nome','acoes'];
 
   generoDataSource: MatTableDataSource<GeneroDto> = new MatTableDataSource<GeneroDto>([]);
 
-  constructor(private generoService: GeneroControllerService,
-              public snackBar: MatSnackBar) {
+  constructor(public generoService: GeneroControllerService,
+              public snackBar: MatSnackBar,
+              public securityService: SecurityService,
+              protected override route: ActivatedRoute,
+              protected override router: Router,) {
+    super(route, router);
+    console.log(securityService)
   }
 
   ngOnInit() {
     this.buscarDados();
+  }
+
+  showResult($event: any[]) {
+    this.confDataResult($event);
+  }
+
+  private confDataResult(data: any[] | undefined) {
+    this.generoDataSource = new MatTableDataSource<GeneroDto>(data || []);
   }
 
   private buscarDados() {

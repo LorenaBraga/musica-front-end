@@ -4,6 +4,8 @@ import {MusicaControllerService} from "../../../api/services/musica-controller.s
 import {MatPaginator, MatPaginatorModule} from '@angular/material/paginator';
 import {MatTableDataSource, MatTableModule} from '@angular/material/table';
 import {MatSnackBar} from "@angular/material/snack-bar";
+import {SecurityService} from "../../../arquitetura/security/security.service";
+import {GeneroDto} from "../../../api/models/genero-dto";
 
 @Component({
   selector: 'app-lista',
@@ -13,14 +15,15 @@ import {MatSnackBar} from "@angular/material/snack-bar";
 export class ListaComponent implements OnInit{
   //@ViewChild(MatPaginator) paginator: MatPaginator;
 
-  displayedColumns: string[] = ['id','nomeBanda', 'nomeMusica', 'nomeAlbum', 'duracao', 'dataLancamento', 'genero', 'acoes'];
+  displayedColumns: string[] = ['id','nomeBanda', 'nomeMusica', 'nomeAlbum', 'duracao', 'dataLancamento', 'nome_genero', 'acoes'];
 
   musicaDataSource: MatTableDataSource<MusicaDto> = new MatTableDataSource<MusicaDto>([]);
 
 
   constructor(
-    private musicaControllerService: MusicaControllerService,
-    public snackBar: MatSnackBar
+    public musicaControllerService: MusicaControllerService,
+    public snackBar: MatSnackBar,
+    public securityService: SecurityService
   ) {
   }
   ngOnInit(): void {
@@ -33,6 +36,14 @@ export class ListaComponent implements OnInit{
       data.body.sort((a: any, b: any) => a.id - b.id);
       this.musicaDataSource.data = data.body;
     })
+  }
+
+  showResult($event: any[]) {
+    this.confDataResult($event);
+  }
+
+  private confDataResult(data: any[] | undefined) {
+    this.musicaDataSource = new MatTableDataSource<MusicaDto>(data || []);
   }
 
   remover(musicaDto: MusicaDto){

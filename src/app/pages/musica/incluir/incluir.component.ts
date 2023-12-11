@@ -30,7 +30,7 @@ export class IncluirComponent {
                     public route: ActivatedRoute,
                     private generoService: GeneroControllerService
   ) {
-    const paramId = this.route.snapshot.paramMap.get('idMusica');
+    const paramId = this.route.snapshot.paramMap.get('id');
     if (paramId) {
       const codigo = parseInt(paramId);
       this.musicaService.musicaControllerObterPorId({id: codigo}).subscribe(
@@ -60,9 +60,7 @@ export class IncluirComponent {
       nomeMusica: [null, [Validators.required, Validators.minLength(3), Validators.maxLength(50)]],
       duracao: [null, [Validators.required]],
       dataLancamento: [null, [Validators.required]],
-      genero: this.formBuilder.group({
-        id: [null, Validators.required]
-      })
+      id_genero: [null, [Validators.required]]
     })
   }
 

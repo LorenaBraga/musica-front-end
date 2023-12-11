@@ -1,8 +1,11 @@
 <div class="mat-elevation-z8">
-  <button mat-button class="menu-button" [routerLink]="['/musica', 'cadastrar']">
+  <app-search-component [controller]="musicaControllerService"  (onSearchResult)="showResult($event)" />
+  <div class="div-button">
+    <button mat-button mat-raised-button class="menu-button" routerLink="/musica/incluir">
     <mat-icon>person</mat-icon>
     <span>Cadastrar</span>
-  </button>
+    </button>
+  </div>
   <table mat-table [dataSource]="musicaDataSource">
 
     <!-- Position Column -->
@@ -39,15 +42,16 @@
       <td mat-cell *matCellDef="let element"> {{element.dataLancamento | date:"dd/MM/yyyy"}} </td>
     </ng-container>
 
-    <ng-container matColumnDef="genero">
+    <ng-container matColumnDef="nome_genero">
       <th mat-header-cell *matHeaderCellDef> Genero </th>
-      <td mat-cell *matCellDef="let element"> {{element.genero.nome }} </td>
+      <td mat-cell *matCellDef="let element"> {{element.nome_genero }} </td>
     </ng-container>
 
     <ng-container matColumnDef="acoes">
       <th mat-header-cell *matHeaderCellDef> Ação </th>
       <td mat-cell *matCellDef="let element">
-        <button mat-icon-button class="btnEditar" [routerLink]="['/musica',element.id]">
+        <button mat-icon-button class="btnEditar" *ngIf="securityService.hasRoles('ROLE_GRUPO_ALTERAR')"
+                [routerLink]="['/musica', element.id, 'alterar']">
           <mat-icon>edit</mat-icon>
         </button>
         <button mat-icon-button (click)="remover(element)">

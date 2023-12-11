@@ -4,23 +4,25 @@ import {GeneroControllerService} from "../../../api/services/genero-controller.s
 import {DateAdapter} from "@angular/material/core";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {ActivatedRoute, Router} from "@angular/router";
+import {BaseComponent} from "../../../core/BaseComponent";
+import {GeneroDto} from "../../../api/models/genero-dto";
 
 @Component({
   selector: 'app-incluir-genero',
   templateUrl: './incluir-genero.component.html',
   styleUrls: ['./incluir-genero.component.css']
 })
-export class IncluirGeneroComponent {
-  formGroup!: FormGroup
+export class IncluirGeneroComponent extends BaseComponent<GeneroDto>{
   id!: number;
 
   constructor(private generoService: GeneroControllerService,
               private formBuilder: FormBuilder,
               private snackBar: MatSnackBar,
-              private router: Router,
-              private route: ActivatedRoute) {
+              protected override router: Router,
+              protected override route: ActivatedRoute) {
+    super(route, router)
 
-    const paramId = this.route.snapshot.paramMap.get('idGenero');
+    const paramId = this.route.snapshot.paramMap.get('id');
     if (paramId) {
       const codigo = parseInt(paramId);
       this.generoService.generoControllerObterPorId({id: codigo}).subscribe(
@@ -35,12 +37,9 @@ export class IncluirGeneroComponent {
 
   private createForm() {
     this.formGroup = this.formBuilder.group({
-      nome: [null, [Validators.required, Validators.maxLength(50)]]
+      nome: [null, [Validators.required, Validators.maxLength(50)]],
+      musicas: [[]]
     })
-  }
-
-  public handleError = (controlName: string, errorName: string) => {
-    return this.formGroup.controls[controlName].hasError(errorName);
   }
 
   onSubmit() {
